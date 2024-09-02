@@ -2,7 +2,7 @@ from indicators import get_momentum, plot_momentum_signals
 from robinhoodAPI import CryptoAPITrading, execute_trade_in_dollars
 from cryptoHistory import CryptoHistory
 import datetime as dt
-from src import util
+import util
 import pandas as pd
 
 
