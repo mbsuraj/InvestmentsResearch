@@ -1,0 +1,22 @@
+name: cryptoTransactionJob
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # Runs at 7:00 AM UTC daily
+
+jobs:
+  run-secure-task:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run Python script with secrets
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        BASE64_PRIVATE_KEY: ${{ secrets.BASE64_PRIVATE_KEY }}
+      run: |
+        # Ensure Python is installed and available
+        python3 --version
+        # Run your script
+        python3 src/transaction.py
