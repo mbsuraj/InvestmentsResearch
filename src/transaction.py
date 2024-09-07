@@ -28,13 +28,13 @@ prices = prices.fillna(method='ffill')
 momentum = get_momentum(prices.copy(), sd, lookback=lookback)
 plot_momentum_signals(momentum, prices[prices.index >= sd], symbol)
 if momentum.iloc[-1, 0] > 0:
-    side = "bid"  # or "sell"
+    side = "buy"  # or "sell"
     dollar_amount = 2  # The amount in dollars you want to trade
 
     order = execute_trade_in_dollars(symbol, side, dollar_amount)
     print(order)
 else:
-    side = "bid"  # or "sell"
+    side = "buy"  # or "sell"
     dollar_amount = 1  # The amount in dollars you want to trade
 
     order = execute_trade_in_dollars(symbol, side, dollar_amount)

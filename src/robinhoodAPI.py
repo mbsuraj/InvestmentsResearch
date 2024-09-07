@@ -125,7 +125,7 @@ def execute_trade_in_dollars(symbol: str, side: str, dollar_amount: float):
     api_trading_client = CryptoAPITrading()
 
     # Step 1: Get the current price of the cryptocurrency
-    estimated_price = api_trading_client.get_estimated_price(symbol, side, "1")
+    estimated_price = api_trading_client.get_estimated_price(symbol, 'bid', "1")
     current_price = float(estimated_price["results"][0]["price"])  # Assume price is in the response
 
     # Step 2: Calculate the quantity of the cryptocurrency to trade
