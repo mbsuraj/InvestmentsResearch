@@ -1,1 +1,4 @@
 private_key.pem
+data/credentials.json
+token.pickle
+token.pickle.base64

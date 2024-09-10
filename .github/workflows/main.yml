@@ -19,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt  # Install dependencies from requirements.txt
+        pip install -r crypto_requirements.txt  # Install dependencies from requirements.txt
 
     - name: Run Python script with secrets
       env:

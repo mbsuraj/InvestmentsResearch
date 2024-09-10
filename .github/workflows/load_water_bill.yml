@@ -1,0 +1,43 @@
+name: loadWaterBill
+
+# This section allows the workflow to be triggered manually
+on:
+  workflow_dispatch:
+
+jobs:
+  run-secure-task:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create token.pickle from secret
+      run: |
+        echo "$TOKEN_PICKLE_BASE64" | base64 --decode > token.pickle
+      env:
+        TOKEN_PICKLE_BASE64: ${{ secrets.TOKEN_PICKLE_BASE64 }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'  # Specify the Python version you need
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r bills_auto_requirements.txt  # Install dependencies from requirements.txt
+
+    - name: Run Python script with secrets
+      env:
+        SPLITWISE_API_KEY: ${{ secrets.SPLITWISE_API_KEY }}
+        CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
+        CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+        JOB: "Water Bill"
+        SUBJECT: "Your Tempe Municipal Utilities Statement"
+        FROM: "noreply@tempe.gov"
+
+      run: |
+        # Ensure Python is installed and available
+        python3 --version
+        # Run your script
+        python3 src/load_bill.py
