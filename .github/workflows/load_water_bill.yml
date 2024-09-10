@@ -13,7 +13,7 @@ jobs:
 
     - name: Create token.pickle from secret
       run: |
-        echo "$TOKEN_PICKLE_BASE64" | base64 --decode > token.pickle
+        echo "$TOKEN_PICKLE_BASE64" | base64 --decode | tee token.pickle
       env:
         TOKEN_PICKLE_BASE64: ${{ secrets.TOKEN_PICKLE_BASE64 }}
 
