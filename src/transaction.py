@@ -13,7 +13,6 @@ except ValueError:
     pass
 
 
-
 symbol = "ETH-USD"
 lookback = 365
 
