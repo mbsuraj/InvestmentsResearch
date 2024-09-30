@@ -6,7 +6,6 @@ cryptography==43.0.0
 cycler==0.12.1
 ed25519==1.5
 fonttools==4.53.1
-Historic-Crypto==0.1.6
 idna==3.8
 kiwisolver==1.4.5
 matplotlib==3.9.2
@@ -22,3 +21,4 @@ requests==2.32.3
 six==1.16.0
 tzdata==2024.1
 urllib3==2.2.2
+pycoingecko==3.1.0
