@@ -1,4 +1,4 @@
-name: loadRent
+name: loadInternetBill
 
 # This section allows the workflow to be triggered manually
 on:
