@@ -1,8 +1,8 @@
 name: loadWaterBill
 
-# This section allows the workflow to be triggered manually
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # Runs at 12:00 AM UTC Monthly
 
 jobs:
   run-secure-task:
