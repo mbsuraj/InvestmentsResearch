@@ -33,6 +33,7 @@ jobs:
         CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
         CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
         JOB: "Rent"
+        TENANT_ID: "81645481"
 
       run: |
         # Ensure Python is installed and available

@@ -14,7 +14,7 @@ class ExpenseLoader:
         self.owner.setId(owner_id)
         # tenant_id = [friend for friend in self.sObj.getFriends() if friend.id==29057780][0]
         self.tenant = ExpenseUser()
-        self.tenant.setId("29057780")
+        self.tenant.setId(os.environ.get("TENANT_ID"))
         self.expense = Expense()
 
     def add_expense(self, amount: str, title="Water Bill"):
