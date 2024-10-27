@@ -33,7 +33,7 @@ jobs:
         sudo apt-get install -y unzip xvfb
         
         # Define the ChromeDriver version you need
-        CHROMEDRIVER_VERSION=114.0.5735.90
+        CHROMEDRIVER_VERSION=130.0.6723.69
         
         # Download the specified ChromeDriver version
         wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
@@ -47,7 +47,7 @@ jobs:
         
         # Install Google Chrome (latest by default, or specify version)
         # For a specific version, update the package and install the compatible Chrome version
-        CHROME_VERSION=114.0.5735.90-1
+        CHROME_VERSION=130.0.6723.70
         sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
 
     - name: Set up display for headless Chrome
