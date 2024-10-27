@@ -28,10 +28,6 @@ jobs:
         # Install Selenium
         pip install selenium
         
-        # Update package lists and install necessary tools
-        sudo apt-get update
-        sudo apt-get install -y unzip xvfb
-        
         # Define the ChromeDriver version you need
         CHROMEDRIVER_VERSION=130.0.6723.69
         
