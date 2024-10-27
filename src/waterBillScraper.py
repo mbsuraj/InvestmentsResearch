@@ -4,6 +4,7 @@ import json
 from selenium import webdriver
 from selenium_stealth import stealth
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 
 class WaterBillScraper:
@@ -61,5 +62,10 @@ class WaterBillScraper:
         login = self.driver.find_element(by=By.XPATH, value=self.xpaths["button"]["log_in"])
         login.click()
         time.sleep(5)
-        bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
-        return float(bill.text.replace("Amount Due", "").replace("$", "").strip())
+        try:
+            bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
+            return float(bill.text.replace("Amount Due", "").replace("$", "").strip())
+        except NoSuchElementException:
+            self.driver.get_screenshot_as_file(f"{os.getcwd()}/diagnostics/snapshot_for_debug.png")
+            raise NoSuchElementException
+
