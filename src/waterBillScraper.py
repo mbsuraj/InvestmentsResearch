@@ -29,7 +29,7 @@ class WaterBillScraper:
         options.add_argument("--incognito")
         # options.add_argument('--proxy-server=%s' % PROXY_STR)
         options.add_argument("user-agent=THis")
-        # options.add_argument("--headless")
+        options.add_argument("--headless")
         options.add_argument("disk-cache-size=0")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
