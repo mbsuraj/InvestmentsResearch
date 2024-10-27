@@ -27,24 +27,27 @@ jobs:
         pip install -r bills_auto_requirements.txt  # Install dependencies from requirements.txt
         # Install Selenium
         pip install selenium
+        pip install selenium_stealth
         
-        # Define the ChromeDriver version you need
-        CHROMEDRIVER_VERSION=130.0.6723.69
+        # Update package lists and install necessary tools
+        sudo apt-get update
+        sudo apt-get install -y unzip xvfb
         
         # Download the specified ChromeDriver version
-        wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+        wget -q "https://storage.googleapis.com/chrome-for-testing-public/130.0.6723.69/linux64/chromedriver-linux64.zip"
         
         # Unzip and move ChromeDriver to /usr/local/bin/
-        sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
-        rm chromedriver_linux64.zip
+        sudo unzip chromedriver_linux64.zip
+        sudo mv -f chromedriver-linux64/chromedriver /usr/local/bin/
+        rm chromedriver-linux64.zip
         
         # Make ChromeDriver executable
         sudo chmod +x /usr/local/bin/chromedriver
         
         # Install Google Chrome (latest by default, or specify version)
-        # For a specific version, update the package and install the compatible Chrome version
-        CHROME_VERSION=130.0.6723.70
-        sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
+        sudo apt-get install libxss1 libappindicator1 libindicator7
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install ./google-chrome*.deb
 
     - name: Set up display for headless Chrome
       run: |
