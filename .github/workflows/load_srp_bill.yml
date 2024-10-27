@@ -1,7 +1,8 @@
 name: loadSRPBill
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # Runs at 12:00 AM UTC Monthly
 
 jobs:
   run-secure-task:
@@ -62,7 +63,7 @@ jobs:
         SRP_USERNAME: ${{ secrets.SRP_USERNAME }}
         SRP_PWD: ${{ secrets.SRP_PWD }}
         JOB: "Electricity Bill"
-        TENANT_ID: "29057780"
+        TENANT_ID: "81645481"
 
       run: |
         # Ensure Python is installed and available
