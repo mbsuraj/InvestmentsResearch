@@ -1,0 +1,12 @@
+{
+  "input": {
+    "username": "//*[@id=\"id_loginId\"]",
+    "password": "//*[@id=\"id_password\"]"
+  },
+  "button": {
+    "log_in": "//*[@id=\"main-container\"]/div/div[2]/div/form/fieldset/div/div[3]/div[2]/input"
+  },
+  "output" : {
+    "bill": "//*[@id=\"account-58243231\"]/div/div[2]/div[2]/div[2]/p"
+  }
+}
