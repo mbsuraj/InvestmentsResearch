@@ -1,8 +1,7 @@
 name: loadSRPBill
 
 on:
-  schedule:
-    - cron: '0 0 1 * *' # Runs at 12:00 AM UTC Monthly
+  workflow_dispatch:
 
 jobs:
   run-secure-task:
@@ -26,19 +25,48 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r bills_auto_requirements.txt  # Install dependencies from requirements.txt
+        # Install Selenium
+        pip install selenium
+        
+        # Update package lists and install necessary tools
+        sudo apt-get update
+        sudo apt-get install -y unzip xvfb
+        
+        # Define the ChromeDriver version you need
+        CHROMEDRIVER_VERSION=114.0.5735.90
+        
+        # Download the specified ChromeDriver version
+        wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+        
+        # Unzip and move ChromeDriver to /usr/local/bin/
+        sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
+        rm chromedriver_linux64.zip
+        
+        # Make ChromeDriver executable
+        sudo chmod +x /usr/local/bin/chromedriver
+        
+        # Install Google Chrome (latest by default, or specify version)
+        # For a specific version, update the package and install the compatible Chrome version
+        CHROME_VERSION=114.0.5735.90-1
+        sudo apt-get install -y google-chrome-stable=$CHROME_VERSION
+
+    - name: Set up display for headless Chrome
+      run: |
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1024x768x16 &
 
     - name: Run Python script with secrets
       env:
         SPLITWISE_API_KEY: ${{ secrets.SPLITWISE_API_KEY }}
         CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
         CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
+        SRP_USERNAME: ${{ secrets.SRP_USERNAME }}
+        SRP_PWD: ${{ secrets.SRP_PWD }}
         JOB: "Electricity Bill"
-        SUBJECT: "SRP eNote: Bill available"
-        FROM: "enotify@srpnet.com"
-        TENANT_ID: "81645481"
+        TENANT_ID: "29057780"
 
       run: |
         # Ensure Python is installed and available
         python3 --version
-        # Run your script
+        # Run your script (that utilizes Selenium)
         python3 src/load_bill.py

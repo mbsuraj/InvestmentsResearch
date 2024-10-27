@@ -1,0 +1,12 @@
+{
+  "input": {
+    "username": "(//*[@id=\"UserName\"])[2]",
+    "password": "(//*[@id=\"Password\"])[2]"
+  },
+  "button": {
+    "log_in": "(//*[@id=\"loginSubmit\"])[2]"
+  },
+  "output" : {
+    "bill": "//*[@id=\"app\"]/div/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div[1]/div/div"
+  }
+}
