@@ -61,11 +61,10 @@ class WaterBillScraper:
         time.sleep(1)
         login = self.driver.find_element(by=By.XPATH, value=self.xpaths["button"]["log_in"])
         login.click()
-        time.sleep(5)
+        time.sleep(10)
         try:
             bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
             return float(bill.text.replace("Amount Due", "").replace("$", "").strip())
         except NoSuchElementException:
             self.driver.get_screenshot_as_file(f"{os.getcwd()}/diagnostics/snapshot_for_debug.png")
             raise NoSuchElementException
-
