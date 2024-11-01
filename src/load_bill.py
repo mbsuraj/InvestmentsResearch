@@ -8,6 +8,8 @@ gs = GmailScraper()
 
 if os.environ.get("JOB") == "Rent":
     amount = 2750
+elif os.environ.get("JOB") == "Sublease Rent":
+    amount = 1200
 elif os.environ.get("JOB") == "Internet Bill":
     amount = 51.22
 elif os.environ.get("JOB") == "Electricity Bill":
