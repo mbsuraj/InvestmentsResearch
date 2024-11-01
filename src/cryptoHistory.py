@@ -27,10 +27,11 @@ class CryptoHistory:
                                                       from_timestamp=start_timestamp,
                                                       to_timestamp=int(datetime.now().timestamp()))
 
+
         prices = pd.DataFrame(new['prices'], columns=["time", "Price"])
         prices["time"] = pd.to_datetime(prices["time"], unit='ms').dt.date
         prices.columns = ["Date", "Price"]
-        return prices
+        return prices.groupby("Date").mean().reset_index()
 
     def update_data(self):
         if self.refresh_all_data:
