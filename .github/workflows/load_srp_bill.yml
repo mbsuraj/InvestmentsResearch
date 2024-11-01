@@ -1,8 +1,7 @@
 name: loadSRPBill
 
 on:
-  schedule:
-    - cron: '0 0 1 * *' # Runs at 12:00 AM UTC Monthly
+  workflow_dispatch:
 
 jobs:
   run-secure-task:
