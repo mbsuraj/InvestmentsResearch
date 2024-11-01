@@ -4,12 +4,15 @@ on:
   schedule:
     - cron: '0 7 * * *' # Runs at 7:00 AM UTC daily
 
+permissions:
+  contents: write  # Allows the workflow to push changes to the repository
+
 jobs:
   run-secure-task:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -30,3 +33,16 @@ jobs:
         python3 --version
         # Run your script
         python3 src/transaction.py
+        
+    - name: Commit Changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add /data/ETH-USD.csv  # Specify the file that was modified
+        git commit -m "Update ETH-USD data"
+
+    - name: Push Changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git push        
