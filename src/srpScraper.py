@@ -62,4 +62,9 @@ class SrpScraper:
         login.click()
         time.sleep(5)
         bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
-        return float(bill.text.replace("$", ""))
+        bill_value = float(bill.text.replace("$", ""))
+        if bill_value != 0:
+            return bill_value
+        else:
+            bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill2"])
+            return float(bill.text.replace("$", ""))

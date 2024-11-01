@@ -7,6 +7,7 @@
     "log_in": "(//*[@id=\"loginSubmit\"])[2]"
   },
   "output" : {
-    "bill": "//*[@id=\"app\"]/div/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div[1]/div/div"
+    "bill": "//*[@id=\"app\"]/div/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div[1]/div/div",
+    "bill2": "//*[@id=\"app\"]/div/div[2]/div[2]/div[4]/div[2]/div[1]/div/div[2]/div[2]/div[3]/div[1]/div[2]"
   }
 }

@@ -1,7 +1,8 @@
 name: loadRent
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 0 1 * *' # Runs at 12:00 AM UTC Monthly
 
 jobs:
   run-secure-task:
