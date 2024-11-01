@@ -30,12 +30,12 @@ if momentum.iloc[-1, 0] <= 0:
     side = "buy"  # or "sell"
     dollar_amount = 2  # The amount in dollars you want to trade
 
-    # order = execute_trade_in_dollars(symbol, side, dollar_amount)
-    # print(order)
+    order = execute_trade_in_dollars(symbol, side, dollar_amount)
+    print(order)
 else:
     side = "buy"  # or "sell"
     dollar_amount = 1  # The amount in dollars you want to trade
 
-    # order = execute_trade_in_dollars(symbol, side, dollar_amount)
-    # print(order)
+    order = execute_trade_in_dollars(symbol, side, dollar_amount)
+    print(order)
 
