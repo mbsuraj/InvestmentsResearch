@@ -1,7 +1,5 @@
 from expenseLoader import ExpenseLoader
 from gmailScraper import GmailScraper
-from srpScraper import SrpScraper
-from waterBillScraper import WaterBillScraper
 import os
 
 
@@ -13,9 +11,11 @@ if os.environ.get("JOB") == "Rent":
 elif os.environ.get("JOB") == "Internet Bill":
     amount = 51.22
 elif os.environ.get("JOB") == "Electricity Bill":
+    from srpScraper import SrpScraper
     ss = SrpScraper("https://www.srpnet.com/")
     amount = ss.get_bill()
 elif os.environ.get("JOB") == "Water Bill":
+    from waterBillScraper import WaterBillScraper
     ws = WaterBillScraper("https://ipn2.paymentus.com/cp/tmpp?lang=en")
     amount = ws.get_bill()
 else:
