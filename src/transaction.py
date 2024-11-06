@@ -14,7 +14,7 @@ except ValueError:
 
 
 symbol = "ETH-USD"
-lookback = 365
+lookback = 14
 
 sd = dt.datetime(2020, 1, 1)
 lookback_timedelta = dt.timedelta(days=lookback)
