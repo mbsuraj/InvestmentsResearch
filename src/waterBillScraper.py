@@ -61,7 +61,7 @@ class WaterBillScraper:
         time.sleep(1)
         login = self.driver.find_element(by=By.XPATH, value=self.xpaths["button"]["log_in"])
         login.click()
-        time.sleep(10)
+        time.sleep(15)
         try:
             bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
             return float(bill.text.replace("Amount Due", "").replace("$", "").strip())
