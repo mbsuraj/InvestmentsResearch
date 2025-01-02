@@ -63,7 +63,7 @@ jobs:
         SRP_USERNAME: ${{ secrets.SRP_USERNAME }}
         SRP_PWD: ${{ secrets.SRP_PWD }}
         JOB: "Water Bill"
-        TENANT_ID: "29057780"
+        TENANT_ID: "81645481"
 
       run: |
         # Ensure Python is installed and available
