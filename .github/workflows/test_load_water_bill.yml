@@ -1,4 +1,4 @@
-name: loadWaterBill
+name: testLoadWaterBill
 
 on:
   workflow_dispatch:
