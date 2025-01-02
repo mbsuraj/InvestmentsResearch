@@ -46,7 +46,7 @@ jobs:
         sudo chmod +x /usr/local/bin/chromedriver
         
         # Install Google Chrome (latest by default, or specify version)
-        sudo apt-get install libxss1 libayatana-appindicator1 libindicator7
+        sudo apt-get install libxss1 libindicator7
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo apt install ./google-chrome*.deb
 
