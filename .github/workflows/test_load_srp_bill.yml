@@ -1,4 +1,4 @@
-name: loadSRPBill
+name: testLoadSRPBill
 
 on:
   workflow_dispatch:
