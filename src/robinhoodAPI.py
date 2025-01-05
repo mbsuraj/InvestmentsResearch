@@ -243,4 +243,5 @@ def execute_stock_trade_in_dollars(symbol: str, side: str, dollar_amount: float,
                                              amountInDollars=dollar_amount,
                                              side=side,
                                              order_type="market")
+    api_trading_client.logout()
     return order
