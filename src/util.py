@@ -1,16 +1,10 @@
-"""MLT: Utility code.  		  	   		  		 		  		  		    	 		 		   		 		  
-  		  	   		  		 		  		  		    	 		 		   		 		  
-Copyright 2017, Georgia Tech Research Corporation  		  	   		  		 		  		  		    	 		 		   		 		  
-Atlanta, Georgia 30332-0415  		  	   		  		 		  		  		    	 		 		   		 		  
-All Rights Reserved  		  	   		  		 		  		  		    	 		 		   		 		  
-"""  		  	   		  		 		  		  		    	 		 		   		 		  
-  		  	   		  		 		  		  		    	 		 		   		 		  
-import os  		  	   		  		 		  		  		    	 		 		   		 		  
-  		  	   		  		 		  		  		    	 		 		   		 		  
-import pandas as pd  		  	   		  		 		  		  		    	 		 		   		 		  
-  		  	   		  		 		  		  		    	 		 		   		 		  
-  		  	   		  		 		  		  		    	 		 		   		 		  
-def symbol_to_path(symbol, base_dir=None):  		  	   		  		 		  		  		    	 		 		   		 		  
+import os
+import pandas as pd
+import pandas_market_calendars as mcal
+from datetime import datetime, timedelta
+import pytz
+
+def symbol_to_path(symbol, base_dir=None):
     """Return CSV file path given ticker symbol."""  		  	   		  		 		  		  		    	 		 		   		 		  
     if base_dir is None:  		  	   		  		 		  		  		    	 		 		   		 		  
         base_dir = os.environ.get("MARKET_DATA_DIR", f"{os.getcwd()}/data/")
@@ -73,4 +67,18 @@ def get_robot_world_file(basefilename):
         os.path.join(  		  	   		  		 		  		  		    	 		 		   		 		  
             os.environ.get("ROBOT_WORLDS_DIR", "testworlds/"), basefilename  		  	   		  		 		  		  		    	 		 		   		 		  
         )  		  	   		  		 		  		  		    	 		 		   		 		  
-    )  		  	   		  		 		  		  		    	 		 		   		 		  
+    )
+
+def is_trading_day():
+    """
+    Checks if today is a trading day on the NYSE (New York Stock Exchange).
+
+    Returns:
+        bool: True if today is a trading day, False otherwise.
+    """
+    nyse = mcal.get_calendar('NYSE')
+    new_york_timezone = pytz.timezone("America/New_York")
+    today = pd.Timestamp(datetime.now(new_york_timezone).date())
+
+    schedule = nyse.valid_days(start_date=today, end_date=today).values[-1]
+    return today == schedule
