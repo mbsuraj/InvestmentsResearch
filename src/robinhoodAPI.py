@@ -6,6 +6,90 @@ from typing import Any, Dict, Optional
 import uuid
 import requests
 from cryptography.hazmat.primitives.asymmetric import ed25519
+import robin_stocks.robinhood as r
+import pyotp
+
+class StockAPITrading:
+    def __init__(self,):
+        """
+        Initializes the StockAPITrading class and logs into the Robinhood account.
+        """
+        self.username = os.environ["ROBINHOOD_USERNAME"]
+        self.password = os.environ["ROBINHOOD_PASSWORD"]
+        self.mfa_key = os.environ["ROBINHOOD_MFA"]
+        self.logged_in = False
+        self.login()
+
+    def login(self):
+        """
+        Logs in to the Robinhood account using provided credentials.
+        """
+        try:
+            totp = self.generate_totp()
+            r.login(self.username, self.password, mfa_code=totp)
+            self.logged_in = True
+        except Exception as e:
+            raise Exception(f"Failed to log in to Robinhood: {e}")
+
+    def generate_totp(self):
+        """
+        Generates a TOTP code using the provided MFA key.
+        """
+        totp = pyotp.TOTP(self.mfa_key).now()
+        return totp
+
+    def get_stock_price(self, symbol: str):
+        """
+        Fetches the current bid and ask price for the specified stock.
+        :param symbol: Stock ticker symbol (e.g., 'AAPL').
+        :return: Dictionary with 'bid_price' and 'ask_price'.
+        """
+        try:
+            ask_price = r.stocks.get_latest_price(symbol, includeExtendedHours=True, priceType="ask_price")
+            bid_price = r.stocks.get_latest_price(symbol, includeExtendedHours=True, priceType="bid_price")
+            return {
+                "bid_price": bid_price[0],
+                "ask_price": ask_price[0]
+            }
+        except Exception as e:
+            raise Exception(f"Error fetching stock price for {symbol}: {e}")
+
+    def execute_order(self, symbol: str, amountInDollars: float, side: str, order_type: str = "market"):
+        """
+        Executes a buy or sell order for the specified stock.
+        :param symbol: Stock ticker symbol (e.g., 'AAPL').
+        :param quantity: Number of shares (can be fractional).
+        :param side: 'buy' or 'sell'.
+        :param order_type: Type of order ('market' or 'limit').
+        :return: Order response.
+        """
+        try:
+            if side.lower() not in ["buy", "sell"]:
+                raise ValueError("Side must be 'buy' or 'sell'.")
+
+            if order_type.lower() == "market":
+                if side.lower() == "buy":
+                    return r.orders.order_buy_fractional_by_price(
+                        symbol, amountInDollars, timeInForce="gfd"
+                    )
+                elif side.lower() == "sell":
+                    return r.orders.order_sell_fractional_by_price(
+                        symbol, amountInDollars, timeInForce="gfd"
+                    )
+            else:
+                raise ValueError("Currently, only market orders are supported.")
+        except Exception as e:
+            raise Exception(f"Error executing {side} order for {symbol}: {e}")
+
+    def logout(self):
+        """
+        Logs out of the Robinhood account.
+        """
+        try:
+            r.logout()
+            self.logged_in = False
+        except Exception as e:
+            raise Exception(f"Failed to log out of Robinhood: {e}")
 
 class CryptoAPITrading:
     def __init__(self):
@@ -120,12 +204,12 @@ class CryptoAPITrading:
         path = "/api/v1/crypto/trading/orders/"
         return self.make_api_request("GET", path)
 
-
-def execute_trade_in_dollars(symbol: str, side: str, dollar_amount: float):
-    api_trading_client = CryptoAPITrading()
+def execute_crypto_trade_in_dollars(symbol: str, side: str, dollar_amount: float, trading_client=CryptoAPITrading()):
+    api_trading_client = trading_client
 
     # Step 1: Get the current price of the cryptocurrency
-    estimated_price = api_trading_client.get_estimated_price(symbol, 'bid', "1")
+    client_side = 'bid' if side == 'buy' else 'sell'
+    estimated_price = api_trading_client.get_estimated_price(symbol, client_side, "1")
     current_price = float(estimated_price["results"][0]["price"])  # Assume price is in the response
 
     # Step 2: Calculate the quantity of the cryptocurrency to trade
@@ -142,24 +226,21 @@ def execute_trade_in_dollars(symbol: str, side: str, dollar_amount: float):
     )
     return order
 
-def main():
-    """
-    BUILD YOUR TRADING STRATEGY HERE
+def execute_stock_trade_in_dollars(symbol: str, side: str, dollar_amount: float, trading_client: StockAPITrading):
+    api_trading_client = trading_client
 
-    order = api_trading_client.place_order(
-          str(uuid.uuid4()),
-          "buy",
-          "market",
-          "ETH-USD",
-          {"asset_quantity": "0.0001"}
-    )
-    """
-    symbol = "ETH-USD"  # Trading pair
-    side = "bid"  # or "sell"
-    dollar_amount = 1  # The amount in dollars you want to trade
+    # Step 1: Get the current price of the cryptocurrency
+    client_side = 'bid_price' if side == 'buy' else 'ask_price'
+    estimated_price = api_trading_client.get_stock_price(symbol)
+    current_price = float(estimated_price[client_side])  # Assume price is in the response
 
-    order = execute_trade_in_dollars(symbol, side, dollar_amount)
-    print(order)
+    # Step 2: Calculate the quantity of the cryptocurrency to trade
+    asset_quantity = round(dollar_amount / current_price, 8)
+    asset_quantity_str = f"{asset_quantity:.5f}"  # Ensure the quantity is formatted correctly
 
-if __name__ == "__main__":
-    main()
+    # Step 3: Place the order
+    order = api_trading_client.execute_order(symbol=symbol,
+                                             amountInDollars=dollar_amount,
+                                             side=side,
+                                             order_type="market")
+    return order

@@ -32,7 +32,7 @@ jobs:
         # Ensure Python is installed and available
         python3 --version
         # Run your script
-        python3 src/transaction.py
+        python3 src/eth_transaction.py
         
     - name: Commit Changes
       run: |
