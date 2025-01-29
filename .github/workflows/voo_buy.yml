@@ -19,26 +19,23 @@ jobs:
       with:
         python-version: '3.11'  # Specify the Python version you need
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r stock_requirements.txt  # Install dependencies from requirements.txt
-
     - name: Add or update Robin-Stocks as a submodule
       run: |
         echo "🍺 Adding or updating Robin-Stocks as a submodule..."
         if [ -d "robin_stocks" ]; then
           echo "🍺 Robin-Stocks submodule already exists. Pulling latest changes..."
           git -C robin_stocks pull origin master
+          git submodule update --init --recursive
         else
           echo "🍺 Cloning Robin-Stocks as a submodule..."
           git submodule add https://github.com/jmfernandes/robin_stocks.git robin_stocks
           git submodule update --init --recursive
         fi
-    - name: Install robin-stock dependency
+
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -e robin_stocks
+        pip install -r stock_requirements.txt  # Install dependencies from requirements.txt
 
     - name: Run Python script with secrets
       env:
