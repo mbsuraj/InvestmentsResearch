@@ -1,8 +1,9 @@
 name: TbillBuyJob
 
 on:
-  schedule:
-    - cron: '0 7 1 * *' # Runs at 7:00 AM UTC on the 1st of every month
+  workflow_dispatch:
+#  schedule:
+#    - cron: '0 7 1 * *' # Runs at 7:00 AM UTC on the 1st of every month
 
 permissions:
   contents: write  # Allows the workflow to push changes to the repository
