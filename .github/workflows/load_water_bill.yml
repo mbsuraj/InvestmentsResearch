@@ -48,7 +48,7 @@ jobs:
         # Install Google Chrome version 130
         sudo apt-get install -y libxss1 libindicator7
         wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_130.0.6723.91-1_amd64.deb
-        sudo apt install -y ./google-chrome-stable_130.0.6723.91-1_amd64.deb
+        sudo apt install -y --allow-downgrades ./google-chrome-stable_130.0.6723.91-1_amd64.deb
 
     - name: Set up display for headless Chrome
       run: |
