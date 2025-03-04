@@ -51,4 +51,4 @@ jobs:
         # Ensure Python is installed and available
         python3 --version
         # Run your script
-        python3 src/tbill_transaction.py
+        python3 src/stock_transaction.py
