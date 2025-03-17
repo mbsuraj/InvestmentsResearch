@@ -1,8 +1,7 @@
 name: VOOBuyJob
 
 on:
-  schedule:
-    - cron: '0 7 * * 1' # Runs at 7:00 AM UTC every Monday
+  workflow_dispatch:
 
 permissions:
   contents: write  # Allows the workflow to push changes to the repository
