@@ -34,7 +34,7 @@ jobs:
       run: |
           echo "🔥 Forcing authentication.py replacement..."
           rm -f ./robin_stocks/robin_stocks/authentication.py
-          cp ./my_fixes/authentication.py ./robin_stocks/robin_stocks/authentication.py
+          cp ./robin_stocks_temp_fix/authentication.py ./robin_stocks/robin_stocks/authentication.py
           ls -l ./robin_stocks/robin_stocks | grep authentication.py
     - name: Verify authentication.py fix
       run: |
