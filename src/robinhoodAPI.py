@@ -26,7 +26,8 @@ class StockAPITrading:
         """
         try:
             totp = self.generate_totp()
-            r.login(self.username, self.password, mfa_code=totp)
+            # r.login(self.username, self.password, mfa_code=totp)
+            r.login(self.username, self.password, by_sms=True)
             self.logged_in = True
         except Exception as e:
             raise Exception(f"Failed to log in to Robinhood: {e}")
