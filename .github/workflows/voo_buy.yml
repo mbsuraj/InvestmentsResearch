@@ -30,10 +30,12 @@ jobs:
           git submodule add https://github.com/jmfernandes/robin_stocks.git robin_stocks
           git submodule update --init --recursive
         fi
-    - name: Apply authentication.py fix
+    - name: Force-replace authentication.py
       run: |
-          echo "🔥 Applying fix to authentication.py..."
-          cp ./robin_stocks_temp_fix/authentication.py ./robin_stocks/robin_stocks/authentication.py
+          echo "🔥 Forcing authentication.py replacement..."
+          rm -f ./robin_stocks/robin_stocks/authentication.py
+          cp ./my_fixes/authentication.py ./robin_stocks/robin_stocks/authentication.py
+          ls -l ./robin_stocks/robin_stocks | grep authentication.py
     - name: Verify authentication.py fix
       run: |
         echo "🔥 Checking authentication.py contents..."
