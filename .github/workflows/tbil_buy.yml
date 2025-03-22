@@ -32,7 +32,16 @@ jobs:
           git submodule add https://github.com/jmfernandes/robin_stocks.git robin_stocks
           git submodule update --init --recursive
         fi
-
+    - name: Force-replace authentication.py
+      run: |
+          echo "🔥 Forcing authentication.py replacement..."
+          rm -f ./robin_stocks/robin_stocks/robinhood/authentication.py
+          cp ./robin_stocks_temp_fix/authentication.py ./robin_stocks/robin_stocks/robinhood/authentication.py
+          ls -l ./robin_stocks/robin_stocks/robinhood | grep authentication.py
+    - name: Verify authentication.py fix
+      run: |
+        echo "🔥 Checking authentication.py contents..."
+        cat ./robin_stocks/robin_stocks/robinhood/authentication.py
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
