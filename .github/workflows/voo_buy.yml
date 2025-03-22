@@ -1,7 +1,8 @@
 name: VOOBuyJob
 
 on:
-  workflow_dispatch:
+  schedule:
+        - cron: '5 17 * * 1-5'
 
 permissions:
   contents: write  # Allows the workflow to push changes to the repository

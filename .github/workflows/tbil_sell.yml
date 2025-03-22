@@ -2,7 +2,7 @@ name: TbillSellJob
 
 on:
   schedule:
-    - cron: '0 7 * * 1' # Runs at 7:00 AM UTC every Monday
+    - cron: '0 17 * * 1-5' # Runs at 7:00 AM UTC every Monday
 
 permissions:
   contents: write  # Allows the workflow to push changes to the repository
