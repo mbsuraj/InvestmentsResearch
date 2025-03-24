@@ -49,7 +49,7 @@ jobs:
     - name: Run Python script with secrets
       env:
         SIDE: "buy"
-        DOLLAR_AMOUNT: "400"
+        DOLLAR_AMOUNT: "200"
         SYMBOL: "VOO"
         API_KEY: ${{ secrets.API_KEY }}
         BASE64_PRIVATE_KEY: ${{ secrets.BASE64_PRIVATE_KEY }}
