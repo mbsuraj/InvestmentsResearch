@@ -30,7 +30,7 @@ class WaterBillScraper:
         options.add_argument("--incognito")
         # options.add_argument('--proxy-server=%s' % PROXY_STR)
         options.add_argument("user-agent=THis")
-        options.add_argument("--headless")
+        # options.add_argument("--headless")
         options.add_argument("disk-cache-size=0")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
@@ -52,7 +52,7 @@ class WaterBillScraper:
 
     def get_bill(self):
         self.driver.get(self.url)
-        time.sleep(2)
+        time.sleep(5)
         username = self.driver.find_element(by=By.XPATH, value=self.xpaths["input"]["username"])
         pwd = self.driver.find_element(by=By.XPATH, value=self.xpaths["input"]["password"])
         username.send_keys(os.environ.get("SRP_USERNAME"))
@@ -61,7 +61,7 @@ class WaterBillScraper:
         time.sleep(1)
         login = self.driver.find_element(by=By.XPATH, value=self.xpaths["button"]["log_in"])
         login.click()
-        time.sleep(15)
+        time.sleep(20)
         try:
             bill = self.driver.find_element(by=By.XPATH, value=self.xpaths["output"]["bill"])
             return float(bill.text.replace("Amount Due", "").replace("$", "").strip())
