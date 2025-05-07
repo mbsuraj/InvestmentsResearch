@@ -1,3 +1,6 @@
 [submodule "robin_stocks"]
 	path = robin_stocks
 	url = https://github.com/jmfernandes/robin_stocks.git
+[submodule "robin_stocks_bh67"]
+	path = robin_stocks_bh67
+	url = https://github.com/bhyman67/robin_stocks_bh67.git

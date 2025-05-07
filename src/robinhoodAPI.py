@@ -25,8 +25,8 @@ class StockAPITrading:
         Logs in to the Robinhood account using provided credentials.
         """
         try:
-            totp = self.generate_totp()
-            r.login(self.username, self.password, mfa_code=totp)
+            # totp = self.generate_totp()
+            r.authentication.login(self.username, self.password)
             # r.login(self.username, self.password, by_sms=True, mfa_code=totp)
             self.logged_in = True
         except Exception as e:
