@@ -9,33 +9,57 @@ class ExpenseLoader:
 
     def __init__(self):
         self.sObj = Splitwise(os.environ.get("CONSUMER_KEY"), os.environ.get("CONSUMER_SECRET"), api_key=os.environ.get("SPLITWISE_API_KEY"))
-        # owner_id = self.sObj.getCurrentUser().id
-        # self.owner = ExpenseUser()
-        # self.owner.setId(owner_id)
+        owner_id = self.sObj.getCurrentUser().id
+        self.owner = ExpenseUser()
+        self.owner.setId(owner_id)
         # # tenant_id = [friend for friend in self.sObj.getFriends() if friend.id==29057780][0]
         # self.tenant = ExpenseUser()
         # self.tenant.setId(os.environ.get("TENANT_ID"))
         # self.expense = Expense()
 
-    def add_expense(self, amount: str, title="Water Bill"):
+    def add_expense(self, amount: str, title="Shared Bill", group_id='87028983'):
         expense = Expense()
-        expense.setGroupId("87028983") # TODO: check actual group ID
-        expense.setSplitEqually()
         expense.setCost(amount)
-        created_expense, errors = s.createExpense(expense)
-        # self.expense.setCost(amount)
-        # self.expense.setDescription(title)
-        # users = []
-        # self.owner.setPaidShare(amount)
-        # self.owner.setOwedShare("0.00")
-        # # self.expense.setReceipt("/Users/naman/receipt.jpg")
-        # self.tenant.setPaidShare("0.00")
-        # self.tenant.setOwedShare(amount)
-        # users.append(self.owner)
-        # users.append(self.tenant)
-        # self.expense.setUsers(users)
-        # expense, errors = self.sObj.createExpense(self.expense)
-        print(expense.getId())
+        expense.setDescription(title)
+        expense.setGroupId(group_id)   # ✅ attach to group
+
+        # Payer (you)
+        self.owner.setPaidShare(amount)
+        self.owner.setOwedShare("0.00")
+
+        # Get group members (excluding you)
+        if group_id:
+            members = self.sObj.getGroup(group_id).members
+        else:
+            members = self.sObj.getFriends()
+
+        # Filter out yourself
+        members = [m for m in members if str(m.id) != str(self.owner.getId())]
+
+        share = round(float(amount) / len(members), 2)
+        adj = round(amount - share*len(members), 2)
+        share_list = [share]*len(members)
+        share_list[-1] += adj
+        users = [self.owner]
+
+        # Add all other members as owing equally
+        for m, share in zip(members, share_list):
+            u = ExpenseUser()
+            u.setId(m.id)
+            u.setPaidShare("0.00")
+            u.setOwedShare(str(share))
+            users.append(u)
+
+        expense.setUsers(users)
+
+        expense, errors = self.sObj.createExpense(expense)
+
+        if errors:
+            logging.error(f"Error creating expense: {errors.getErrors()}")
+        else:
+            logging.info(f"Expense created with ID {expense.getId()}")
+            print(expense.getId())
+
 # expense, errors = sObj.createExpense(expense)
 # print(expense.getId())
 # sObj.deleteExpense("3358074034")
