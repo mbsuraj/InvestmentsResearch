@@ -17,7 +17,7 @@ elif os.environ.get("JOB") == "Internet Bill":
 elif os.environ.get("JOB") == "Electricity Bill":
     from srpScraper import SrpScraper
     ss = SrpScraper("https://www.srpnet.com/")
-    amount = ss.get_bill()
+    amount = ss.get_bill() - 150
 elif os.environ.get("JOB") == "Water Bill":
     from waterBillScraper import WaterBillScraper
     ws = WaterBillScraper("https://ipn2.paymentus.com/cp/tmpp?lang=en")
