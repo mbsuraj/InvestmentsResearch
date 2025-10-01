@@ -17,7 +17,7 @@ class ExpenseLoader:
         # self.tenant.setId(os.environ.get("TENANT_ID"))
         # self.expense = Expense()
 
-    def add_expense(self, amount: str, title="Shared Bill", group_id='87028983'):
+    def add_expense(self, amount: str, title="Shared Bill", group_id=os.environ.get("TENANT_ID")):
         expense = Expense()
         expense.setCost(amount)
         expense.setDescription(title)
