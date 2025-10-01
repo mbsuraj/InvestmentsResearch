@@ -17,11 +17,11 @@ class ExpenseLoader:
         # self.tenant.setId(os.environ.get("TENANT_ID"))
         # self.expense = Expense()
 
-    def add_expense(self, amount: str, title="Shared Bill", group_id=os.environ.get("TENANT_ID")):
+    def add_expense(self, amount: str, title="Shared Bill", group_id=os.environ.get("GROUP_ID")):
         expense = Expense()
         expense.setCost(amount)
         expense.setDescription(title)
-        expense.setGroupId(group_id)   # ✅ attach to group
+        expense.setGroupId(int(group_id))   # ✅ attach to group
 
         # Payer (you)
         self.owner.setPaidShare(amount)
@@ -36,10 +36,13 @@ class ExpenseLoader:
         # Filter out yourself
         members = [m for m in members if str(m.id) != str(self.owner.getId())]
 
-        share = round(float(amount) / len(members), 2)
-        adj = round(amount - share*len(members), 2)
-        share_list = [share]*len(members)
-        share_list[-1] += adj
+        if os.getenv("JOB") == "Rent":
+            share_list = [os.environ.get(m.first_name) for m in members]
+        else:
+            share = round(float(amount) / len(members), 2)
+            adj = round(float(amount) - share*len(members), 2)
+            share_list = [share]*len(members)
+            share_list[-1] += adj
         users = [self.owner]
 
         # Add all other members as owing equally

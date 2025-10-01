@@ -33,8 +33,10 @@ jobs:
         CONSUMER_SECRET: ${{ secrets.CONSUMER_SECRET }}
         CONSUMER_KEY: ${{ secrets.CONSUMER_KEY }}
         JOB: "Rent"
-        TENANT_ID: "87028983"
-
+        GROUP_ID: "87028983"
+        hua: "1150"
+        Xinhue: "800"
+        Jacky: "800"
       run: |
         # Ensure Python is installed and available
         python3 --version
