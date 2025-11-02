@@ -1,7 +1,8 @@
 {
   "input": {
     "username": "(//*[@id=\"UserName\"])[2]",
-    "password": "(//*[@id=\"Password\"])[2]"
+    "password": "(//*[@id=\"Password\"])[2]",
+    "no_cookies": "//*[@id=\"onetrust-reject-all-handler\"]"
   },
   "button": {
     "log_in": "(//*[@id=\"loginSubmit\"])[2]"
