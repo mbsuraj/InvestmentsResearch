@@ -52,6 +52,10 @@ class SrpScraper:
     def get_bill(self):
         self.driver.get(self.url)
         time.sleep(2)
+        no_cookies = self.driver.find_element(by=By.XPATH, value=self.xpaths["input"]["no_cookies"])
+        if no_cookies:
+            no_cookies.click()
+            time.sleep(3)
         username = self.driver.find_element(by=By.XPATH, value=self.xpaths["input"]["username"])
         pwd = self.driver.find_element(by=By.XPATH, value=self.xpaths["input"]["password"])
         username.send_keys(os.environ.get("SRP_USERNAME"))
