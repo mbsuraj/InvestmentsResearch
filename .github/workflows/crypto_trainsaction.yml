@@ -1,8 +1,11 @@
 name: cryptoTransactionJob
 
 on:
-  schedule:
-    - cron: '0 7 * * *' # Runs at 7:00 AM UTC daily
+  workflow_dispatch:
+
+# on:
+#   schedule:
+#     - cron: '0 7 * * *' # Runs at 7:00 AM UTC daily
 
 permissions:
   contents: write  # Allows the workflow to push changes to the repository
