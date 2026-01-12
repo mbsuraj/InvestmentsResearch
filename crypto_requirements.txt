@@ -20,7 +20,7 @@ pytz==2024.1
 requests==2.32.3
 six==1.16.0
 tzdata==2024.1
-urllib3==2.2.2
+urllib3==2.6.3
 pycoingecko==3.1.0
 pandas-market-calendars==4.5.1
 pyotp==2.9.0
